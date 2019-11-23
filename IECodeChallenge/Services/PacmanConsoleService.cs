@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 using IECodeChallenge.Models;
 
@@ -17,7 +15,10 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
-
+            while (true)
+            {
+                _pacmanCommandParser.ParseCommand(Console.ReadLine());
+            }
         }
 
         public PacmanType ServiceType => PacmanType.Console;

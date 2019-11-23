@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace IECodeChallenge.Services
@@ -13,7 +14,7 @@ namespace IECodeChallenge.Services
         public void ParseCommand(string input)
         {
             //TODO use regex
-            var command = _validCommands.FirstOrDefault(x => x.Contains(input, StringComparison.InvariantCultureIgnoreCase));
+            string command = _validCommands.FirstOrDefault(x => x.Contains(input, StringComparison.InvariantCultureIgnoreCase));
             if (string.IsNullOrEmpty(command))
                 return;
 
@@ -38,7 +39,16 @@ namespace IECodeChallenge.Services
 
         public void ParseFile(string input)
         {
+            if(string.IsNullOrWhiteSpace(input))
+                throw new ArgumentNullException(nameof(input));
 
+            if(!File.Exists(input))
+                throw new FileNotFoundException("Input file does not exist.");
+
+            using (var reader = new StreamReader(File.OpenRead(input)))
+            {
+                ParseCommand(reader.ReadLine());
+            }
         }
 
         private bool isreportCommand;
