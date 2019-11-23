@@ -1,4 +1,5 @@
-﻿using IECodeChallenge.Services;
+﻿using System;
+using IECodeChallenge.Services;
 
 namespace IECodeChallenge
 {
@@ -9,6 +10,19 @@ namespace IECodeChallenge
         public App(ICommandParser commandParser)
         {
             _commandParser = commandParser;
+        }
+
+        public void Start()
+        {
+            while (true)
+            {
+                string input = Console.ReadLine();
+                _commandParser.ParseCommand(input);
+                if (_commandParser.IsReportCommand)
+                {
+
+                }
+            }
         }
     }
 }

@@ -8,5 +8,7 @@ namespace IECodeChallenge.Services
         bool IsValidPlaceCommand(string input);
         void ParseCommand(string input);
         void ParseFile(string input);
+
+        bool IsReportCommand { get; }
     }
 }

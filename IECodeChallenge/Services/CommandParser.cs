@@ -8,7 +8,7 @@ namespace IECodeChallenge.Services
     {
         private readonly List<string> _validCommands = new List<string> { "PLACE", "MOVE", "LEFT", "RIGHT", "REPORT" };
         private readonly Queue<string> _commandQueue = new Queue<string>();
-        private bool _commandQueueInitiated = false;
+        private bool _commandQueueInitiated;
 
         public void ParseCommand(string input)
         {
@@ -20,6 +20,7 @@ namespace IECodeChallenge.Services
             //If its a place command, initiate/re-initiate the queue
             if (IsValidPlaceCommand(input))
             {
+                isreportCommand = false;
                 _commandQueueInitiated = true;
                 _commandQueue.Clear();
             }
@@ -27,6 +28,11 @@ namespace IECodeChallenge.Services
             if (_commandQueueInitiated)
             {
                 _commandQueue.Enqueue(command);
+
+                if (command.Equals("REPORT", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    isreportCommand = true;
+                }
             }
         }
 
@@ -34,6 +40,10 @@ namespace IECodeChallenge.Services
         {
 
         }
+
+        private bool isreportCommand;
+
+        public bool IsReportCommand => isreportCommand;
 
         public List<string> GetCommandList()
         {
