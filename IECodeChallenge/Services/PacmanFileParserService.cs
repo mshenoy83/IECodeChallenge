@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using IECodeChallenge.Models;
 
 namespace IECodeChallenge.Services
@@ -22,7 +21,33 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Enter Filename :");
+            while (true)
+            {
+                try
+                {
+                    string filename = Console.ReadLine();
+                    _pacmanCommandParser.ParseFile(filename);
+                    break;
+                }
+                catch (ArgumentNullException argex)
+                {
+                    Console.WriteLine("Invalid argument. Please enter a valid filename.");
+                }
+                catch (FileNotFoundException fnfex)
+                {
+                    Console.WriteLine("File not found. Please enter a valid filename.");
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    return;
+                }    
+            }
+
+            var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList());
+            _reportGenerator.GeneratePacmanReport(pacmanModel);
+            
         }
     }
 }

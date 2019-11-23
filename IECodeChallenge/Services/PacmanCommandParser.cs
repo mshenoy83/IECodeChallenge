@@ -9,8 +9,15 @@ namespace IECodeChallenge.Services
 {
     public class PacmanCommandParser : IPacmanCommandParser
     {
-        private readonly List<string> _validCommands = new List<string> { "PLACE", "MOVE", "LEFT", "RIGHT", "REPORT" };
-        private readonly Queue<KeyValuePair<CommandType,string>> _commandQueue = new Queue<KeyValuePair<CommandType, string>>();
+        private readonly Dictionary<string, CommandType> _validCommands = new Dictionary<string, CommandType>
+        {
+            {"PLACE",CommandType.PLACE},
+            {"MOVE",CommandType.MOVE},
+            {"LEFT",CommandType.LEFT},
+            {"RIGHT",CommandType.RIGHT},
+            {"REPORT",CommandType.REPORT}
+        };
+        private readonly Queue<KeyValuePair<CommandType, string>> _commandQueue = new Queue<KeyValuePair<CommandType, string>>();
         private bool _commandQueueInitiated;
 
         public void ParseCommand(string input)
@@ -18,35 +25,39 @@ namespace IECodeChallenge.Services
 
 
             //TODO use regex
-            string command = _validCommands.FirstOrDefault(x => x.Contains(input, StringComparison.InvariantCultureIgnoreCase));
-            if (string.IsNullOrEmpty(command))
+            var command = FetchCommand(input);
+            if (string.IsNullOrEmpty(command.Value))
                 return;
 
             //If its a place command, initiate/re-initiate the queue
-            if (IsValidPlaceCommand(input))
+            switch (command.Key)
             {
-                isreportCommand = false;
-                _commandQueueInitiated = true;
-                _commandQueue.Clear();
+                case CommandType.PLACE:
+                    isreportCommand = false;
+                    _commandQueueInitiated = true;
+                    _commandQueue.Clear();
+                    _commandQueue.Enqueue(command);
+                    break;
+                default:
+                    if (_commandQueueInitiated)
+                    {
+                        _commandQueue.Enqueue(command);
+                    }
+                    break;
             }
-
-            if (_commandQueueInitiated)
+            
+            if (command.Key == CommandType.REPORT)
             {
-                _commandQueue.Enqueue(command);
-
-                if (command.Equals("REPORT", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    isreportCommand = true;
-                }
+                isreportCommand = true;
             }
         }
 
         public void ParseFile(string input)
         {
-            if(string.IsNullOrWhiteSpace(input))
+            if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentNullException(nameof(input));
 
-            if(!File.Exists(input))
+            if (!File.Exists(input))
                 throw new FileNotFoundException("Input file does not exist.");
 
             using (var reader = new StreamReader(File.OpenRead(input)))
@@ -59,10 +70,10 @@ namespace IECodeChallenge.Services
 
         public bool IsReportCommand => isreportCommand;
 
-        public List<KeyValuePair<CommandType,string>> GetCommandList()
+        public List<KeyValuePair<CommandType, string>> GetCommandList()
         {
             _commandQueueInitiated = false;
-            var commandList = new List<KeyValuePair<CommandType,string>>();
+            var commandList = new List<KeyValuePair<CommandType, string>>();
             while (_commandQueue.Any())
             {
                 commandList.Add(_commandQueue.Dequeue());
@@ -71,17 +82,43 @@ namespace IECodeChallenge.Services
             return commandList;
         }
 
-
-
         /// <summary>
         /// TODO use regex
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public bool IsValidPlaceCommand(string input)
+        public KeyValuePair<CommandType, string> FetchCommand(string input)
         {
-            return input.Equals("PLACE");
+            string command = _validCommands.Keys.FirstOrDefault(x => x.Contains(input, StringComparison.InvariantCultureIgnoreCase));
+            return string.IsNullOrWhiteSpace(command) ? new KeyValuePair<CommandType, string>()
+                : new KeyValuePair<CommandType, string>(_validCommands[command], command);
         }
+
+        public PlacementModel ParsePlaceCommand(string input)
+        {
+            input = input.ToUpperInvariant().Replace("PLACE", "").Trim();
+            string[] strList = input.Split(",");
+            var model = new PlacementModel();
+            if (Enum.TryParse(strList[2], out Direction direction))
+            {
+                model.DirectionFacing = direction;
+            }
+
+            if (int.TryParse(strList[0], out int xPos))
+            {
+                model.XPosition = xPos;
+            }
+
+            if (int.TryParse(strList[1], out int yPos))
+            {
+                model.YPosition = yPos;
+            }
+
+            return model;
+        }
+
+
+
 
     }
 }
