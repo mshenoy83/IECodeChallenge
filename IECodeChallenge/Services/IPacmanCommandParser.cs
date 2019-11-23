@@ -2,7 +2,7 @@
 
 namespace IECodeChallenge.Services
 {
-    public interface ICommandParser
+    public interface IPacmanCommandParser
     {
         List<string> GetCommandList();
         bool IsValidPlaceCommand(string input);

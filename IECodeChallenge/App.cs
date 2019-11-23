@@ -5,24 +5,18 @@ namespace IECodeChallenge
 {
     public class App
     {
-        private readonly ICommandParser _commandParser;
+        private readonly SimulationLoader _simLoader;
 
-        public App(ICommandParser commandParser)
+        public App(SimulationLoader simLoader)
         {
-            _commandParser = commandParser;
+            _simLoader = simLoader;
         }
 
         public void Start()
         {
-            while (true)
-            {
-                string input = Console.ReadLine();
-                _commandParser.ParseCommand(input);
-                if (_commandParser.IsReportCommand)
-                {
-
-                }
-            }
+            Console.WriteLine("Welcome to Pacman Simulator.");
+            Console.WriteLine("Typing 'exit' at anytime will exit the simulation.");
+            _simLoader.InitializeSimulation();
         }
     }
 }

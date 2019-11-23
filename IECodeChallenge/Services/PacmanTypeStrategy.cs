@@ -6,7 +6,7 @@ using IECodeChallenge.Models;
 
 namespace IECodeChallenge.Services
 {
-    public class PacmanTypeStrategy
+    public class PacmanTypeStrategy : IPacmanTypeStrategy
     {
         private readonly IEnumerable<IPacmanService> _pacmanServices;
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace IECodeChallenge.Services
 {
-    public class CommandParser : ICommandParser
+    public class PacmanCommandParser : IPacmanCommandParser
     {
         private readonly List<string> _validCommands = new List<string> { "PLACE", "MOVE", "LEFT", "RIGHT", "REPORT" };
         private readonly Queue<string> _commandQueue = new Queue<string>();
