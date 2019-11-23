@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using IECodeChallenge.Models;
+
 namespace IECodeChallenge.Services
 {
     public class PacmanCommandParser : IPacmanCommandParser
     {
         private readonly List<string> _validCommands = new List<string> { "PLACE", "MOVE", "LEFT", "RIGHT", "REPORT" };
-        private readonly Queue<string> _commandQueue = new Queue<string>();
+        private readonly Queue<KeyValuePair<CommandType,string>> _commandQueue = new Queue<KeyValuePair<CommandType, string>>();
         private bool _commandQueueInitiated;
 
         public void ParseCommand(string input)
         {
+
+
             //TODO use regex
             string command = _validCommands.FirstOrDefault(x => x.Contains(input, StringComparison.InvariantCultureIgnoreCase));
             if (string.IsNullOrEmpty(command))
@@ -55,10 +59,10 @@ namespace IECodeChallenge.Services
 
         public bool IsReportCommand => isreportCommand;
 
-        public List<string> GetCommandList()
+        public List<KeyValuePair<CommandType,string>> GetCommandList()
         {
             _commandQueueInitiated = false;
-            var commandList = new List<string>();
+            var commandList = new List<KeyValuePair<CommandType,string>>();
             while (_commandQueue.Any())
             {
                 commandList.Add(_commandQueue.Dequeue());
