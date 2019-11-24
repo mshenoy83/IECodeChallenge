@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
 using IECodeChallenge.Models;
 using IECodeChallenge.Test.Fixtures;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using Xunit;
 
 namespace IECodeChallenge.Test.Tests
