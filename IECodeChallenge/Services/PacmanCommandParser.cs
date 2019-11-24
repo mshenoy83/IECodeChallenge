@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using IECodeChallenge.Models;
 
@@ -12,11 +13,11 @@ namespace IECodeChallenge.Services
     {
         private readonly Dictionary<string, CommandType> _validCommands = new Dictionary<string, CommandType>
         {
-            {"PLACE",CommandType.PLACE},
-            {"MOVE",CommandType.MOVE},
-            {"LEFT",CommandType.LEFT},
-            {"RIGHT",CommandType.RIGHT},
-            {"REPORT",CommandType.REPORT}
+            {@"^(PLACE)\s-?\d+,{1}-?\d+,{1}(NORTH|SOUTH|WEST|EAST)",CommandType.PLACE},
+            {@"^MOVE",CommandType.MOVE},
+            {@"^LEFT",CommandType.LEFT},
+            {@"^RIGHT",CommandType.RIGHT},
+            {@"^REPORT",CommandType.REPORT}
         };
         private readonly Queue<KeyValuePair<CommandType, string>> _commandQueue = new Queue<KeyValuePair<CommandType, string>>();
         private bool _commandQueueInitiated;
@@ -24,7 +25,6 @@ namespace IECodeChallenge.Services
         public override string ParseCommand(string input)
         {
             var parsedInput = base.ParseCommand(input);
-            //TODO use regex
             var command = FetchCommand(parsedInput);
             if (string.IsNullOrEmpty(command.Value))
                 return input;
@@ -84,22 +84,22 @@ namespace IECodeChallenge.Services
             return commandList;
         }
 
-        /// <summary>
-        /// TODO use regex
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public KeyValuePair<CommandType, string> FetchCommand(string input)
         {
-            string command = _validCommands.Keys.FirstOrDefault(x => input.Contains(x, StringComparison.InvariantCultureIgnoreCase));
-            return string.IsNullOrWhiteSpace(command) ? new KeyValuePair<CommandType, string>()
-                : new KeyValuePair<CommandType, string>(_validCommands[command], input);
+            foreach (KeyValuePair<string, CommandType> cmd in _validCommands)
+            {
+                if (Regex.Match(input.ToUpperInvariant(), cmd.Key).Success)
+                {
+                    return new KeyValuePair<CommandType, string>(cmd.Value, input);
+                }
+            }
+
+            return new KeyValuePair<CommandType, string>();
         }
 
         public PacmanModel ParsePlaceCommand(string input)
         {
-            input = input.ToUpperInvariant().Replace("PLACE", "").Trim();
-            string[] strList = input.Split(",");
+            string[] strList = input.ToUpperInvariant().Replace("PLACE", "").Trim().Split(",");
             var model = new PacmanModel();
             if (Enum.TryParse(strList[2].ToUpperInvariant(), out Direction direction))
             {

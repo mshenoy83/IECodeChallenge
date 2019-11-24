@@ -42,6 +42,21 @@ namespace IECodeChallenge.Models
             }
         }
 
+        public bool IsInGrid
+        {
+            get
+            {
+                if (Position.IsEmpty)
+                    return false;
+
+                if (0 <= Position.X && Position.X <= 5 && 0 <= Position.Y && Position.Y <= 5)
+                    return true;
+                
+
+                return false;
+            }
+        }
+
         public object Clone()
         {
             return MemberwiseClone();

@@ -31,10 +31,10 @@ namespace IECodeChallenge.Services
                         model = _commandParser.ParsePlaceCommand(cmd.Value).Clone() as PacmanModel ?? new PacmanModel();
                         break;
                     case CommandType.LEFT:
-                        model.DirectionFacing = GetNewPacmanDirection(TurnTaken.LEFT, model.DirectionFacing);
+                        model.DirectionFacing = model.IsInGrid ? GetNewPacmanDirection(TurnTaken.LEFT, model.DirectionFacing) : model.DirectionFacing;
                         break;
                     case CommandType.RIGHT:
-                        model.DirectionFacing = GetNewPacmanDirection(TurnTaken.RIGHT, model.DirectionFacing);
+                        model.DirectionFacing = model.IsInGrid ? GetNewPacmanDirection(TurnTaken.RIGHT, model.DirectionFacing) : model.DirectionFacing;
                         break;
                     case CommandType.MOVE:
                         model.Position = GetNewPacmanPosition(model);
