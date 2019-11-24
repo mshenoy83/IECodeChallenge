@@ -5,19 +5,19 @@ using System.Collections.Generic;
 using System.Drawing;
 using Xunit;
 
-namespace IECodeChallenge.Test.Tests
+namespace IECodeChallenge.Test.UnitTests
 {
     public class PathfinderTests
     {
-        public class When_PlaceCommand_ReturnsNull
+        public class WhenPlaceCommandReturnsNull
         {
-            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture(TestType.Negative, true);
+            private readonly PathFinderFixture _serviceFixture = new PathFinderFixture(TestType.Negative);
 
             [Theory]
             [MemberData(nameof(TestInvalidPlaceCommandData))]
             public void UpdatePath_Should_Return_Null(List<KeyValuePair<CommandType, string>> commands)
             {
-                var model = ServiceFixture.Service.UpdatePacmanPath(commands);
+                var model = _serviceFixture.Service.UpdatePacmanPath(commands);
                 model.Should().BeNull();
             }
 
@@ -36,15 +36,15 @@ namespace IECodeChallenge.Test.Tests
             #endregion
         }
 
-        public class When_NoCommands_AreParsed
+        public class WhenNoCommandsAreParsed
         {
-            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture(TestType.Negative);
+            private readonly PathFinderFixture _serviceFixture = new PathFinderFixture(TestType.Negative);
 
             [Theory]
             [MemberData(nameof(TestEmptyCommandList))]
             public void UpdatePath_Should_Return_Null(List<KeyValuePair<CommandType, string>> commands)
             {
-                var model = ServiceFixture.Service.UpdatePacmanPath(commands);
+                var model = _serviceFixture.Service.UpdatePacmanPath(commands);
                 model.Should().BeNull();
             }
 
@@ -58,13 +58,13 @@ namespace IECodeChallenge.Test.Tests
 
         public class PacmanDirectionTests
         {
-            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture();
+            private readonly PathFinderFixture _serviceFixture = new PathFinderFixture();
 
             [Theory]
             [MemberData(nameof(TestDirectionData))]
             public void Direction_Should_Match_Expected_Result(TurnTaken turn, Direction currentDirection, bool isInGrid, Direction expectedDirection)
             {
-                var actualDirection = ServiceFixture.Service.GetNewPacmanDirection(turn, currentDirection, isInGrid);
+                var actualDirection = _serviceFixture.Service.GetNewPacmanDirection(turn, currentDirection, isInGrid);
                 actualDirection.Should().Be(expectedDirection);
             }
 
@@ -93,13 +93,13 @@ namespace IECodeChallenge.Test.Tests
 
         public class PacmanPositionTests
         {
-            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture();
+            private readonly PathFinderFixture _serviceFixture = new PathFinderFixture();
 
             [Theory]
             [MemberData(nameof(TestDirectionData))]
             public void Position_Should_Match_Expected_Result(PacmanModel model, Point expectedPosition)
             {
-                var actualPosition = ServiceFixture.Service.MovePacman(model);
+                var actualPosition = _serviceFixture.Service.MovePacman(model);
                 actualPosition.Should().Be(expectedPosition);
             }
 

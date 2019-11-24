@@ -9,7 +9,7 @@ namespace IECodeChallenge.Services
             return Console.ReadLine();
         }
 
-        public void Writeline(string messageTemplate, params object[] args)
+        public void WriteLine(string messageTemplate, params object[] args)
         {
             Console.WriteLine(messageTemplate, args);
         }

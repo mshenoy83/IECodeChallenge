@@ -3,6 +3,6 @@
     public interface IConsoleService
     {
         string ReadLine();
-        void Writeline(string messageTemplate, params object[] args);
+        void WriteLine(string messageTemplate, params object[] args);
     }
 }
