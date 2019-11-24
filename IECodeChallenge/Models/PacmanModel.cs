@@ -21,19 +21,19 @@ namespace IECodeChallenge.Models
                 switch (DirectionFacing)
                 {
                     case Direction.EAST:
-                        if (Position.X < 5)
+                        if (Position.X < 5 && Position.X >= 0)
                             return true;
                         break;
                     case Direction.NORTH:
-                        if (Position.Y < 5)
+                        if (Position.Y < 5 && Position.Y >= 0)
                             return true;
                         break;
                     case Direction.SOUTH:
-                        if (Position.Y > 0)
+                        if (Position.Y > 0 && Position.Y <= 5)
                             return true;
                         break;
                     case Direction.WEST:
-                        if (Position.X > 0)
+                        if (Position.X > 0 && Position.X <= 5)
                             return true;
                         break;
                 }
