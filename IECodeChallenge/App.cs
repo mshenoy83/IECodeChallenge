@@ -17,6 +17,7 @@ namespace IECodeChallenge
             Console.WriteLine("Welcome to Pacman Simulator.");
             Console.WriteLine("Typing 'exit' at anytime will exit the simulation.");
             _simLoader.InitializeSimulation();
+            Console.ReadKey();
         }
     }
 }

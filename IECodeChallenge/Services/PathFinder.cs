@@ -33,10 +33,10 @@ namespace IECodeChallenge.Services
                         model = parsedCommand.Clone() as PacmanModel;
                         break;
                     case CommandType.LEFT:
-                        model.DirectionFacing = model.IsInGrid ? GetNewPacmanDirection(TurnTaken.LEFT, model.DirectionFacing) : model.DirectionFacing;
+                        model.DirectionFacing = GetNewPacmanDirection(TurnTaken.LEFT, model.DirectionFacing, model.IsInGrid);
                         break;
                     case CommandType.RIGHT:
-                        model.DirectionFacing = model.IsInGrid ? GetNewPacmanDirection(TurnTaken.RIGHT, model.DirectionFacing) : model.DirectionFacing;
+                        model.DirectionFacing = GetNewPacmanDirection(TurnTaken.RIGHT, model.DirectionFacing, model.IsInGrid);
                         break;
                     case CommandType.MOVE:
                         model.Position = GetNewPacmanPosition(model);
@@ -73,8 +73,12 @@ namespace IECodeChallenge.Services
             return new Point(x, y);
         }
 
-        public Direction GetNewPacmanDirection(TurnTaken turn, Direction currentDirection)
+        public Direction GetNewPacmanDirection(TurnTaken turn, Direction currentDirection, bool isInGrid)
         {
+
+            if (!isInGrid)
+                return currentDirection;
+
             var rotation = (int)turn;
             var facing = (int)currentDirection;
 

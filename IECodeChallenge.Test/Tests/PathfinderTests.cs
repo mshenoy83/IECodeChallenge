@@ -39,7 +39,7 @@ namespace IECodeChallenge.Test.Tests
 
         public class When_NoCommands_AreParsed
         {
-            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture(TestType.Negative, true);
+            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture(TestType.Negative);
 
             [Theory]
             [MemberData(nameof(TestEmptyCommandList))]
@@ -53,6 +53,41 @@ namespace IECodeChallenge.Test.Tests
             public static IEnumerable<object[]> TestEmptyCommandList()
             {
                 yield return new object[] { new List<KeyValuePair<CommandType, string>>() };
+            }
+            #endregion
+        }
+
+        public class PacmanDirectionTests
+        {
+            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture();
+
+            [Theory]
+            [MemberData(nameof(TestDirectionData))]
+            public void Direction_Should_Match_Expected_Result(TurnTaken turn, Direction currentDirection, bool isInGrid, Direction expectedDirection)
+            {
+                var actualDirection = ServiceFixture.Service.GetNewPacmanDirection(turn, currentDirection, isInGrid);
+                actualDirection.Should().Be(expectedDirection);
+            }
+
+            #region TestData
+            public static IEnumerable<object[]> TestDirectionData()
+            {
+                yield return new object[] { TurnTaken.LEFT, Direction.NORTH, true, Direction.EAST };
+                yield return new object[] { TurnTaken.LEFT, Direction.EAST, true, Direction.SOUTH };
+                yield return new object[] { TurnTaken.LEFT, Direction.WEST, true, Direction.NORTH };
+                yield return new object[] { TurnTaken.LEFT, Direction.SOUTH, true, Direction.WEST };
+                yield return new object[] { TurnTaken.RIGHT, Direction.NORTH, true, Direction.WEST };
+                yield return new object[] { TurnTaken.RIGHT, Direction.EAST, true, Direction.NORTH };
+                yield return new object[] { TurnTaken.RIGHT, Direction.WEST, true, Direction.SOUTH };
+                yield return new object[] { TurnTaken.RIGHT, Direction.SOUTH, true, Direction.EAST };
+                yield return new object[] { TurnTaken.LEFT, Direction.NORTH, false, Direction.NORTH };
+                yield return new object[] { TurnTaken.LEFT, Direction.EAST, false, Direction.EAST };
+                yield return new object[] { TurnTaken.LEFT, Direction.WEST, false, Direction.WEST };
+                yield return new object[] { TurnTaken.LEFT, Direction.SOUTH, false, Direction.SOUTH };
+                yield return new object[] { TurnTaken.RIGHT, Direction.NORTH, false, Direction.NORTH };
+                yield return new object[] { TurnTaken.RIGHT, Direction.EAST, false, Direction.EAST };
+                yield return new object[] { TurnTaken.RIGHT, Direction.WEST, false, Direction.WEST };
+                yield return new object[] { TurnTaken.RIGHT, Direction.SOUTH, false, Direction.SOUTH };
             }
             #endregion
         }

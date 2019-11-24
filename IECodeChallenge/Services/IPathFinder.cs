@@ -10,6 +10,6 @@ namespace IECodeChallenge.Services
 
         Point GetNewPacmanPosition(PacmanModel model);
 
-        Direction GetNewPacmanDirection(TurnTaken turn, Direction currentDirection);
+        Direction GetNewPacmanDirection(TurnTaken turn, Direction currentDirection, bool isInGrid);
     }
 }

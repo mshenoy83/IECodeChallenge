@@ -9,12 +9,12 @@ namespace IECodeChallenge.Test.Fixtures
 {
     public class PathFinderFixture
     {
-        public PathFinderFixture(TestType testtype,bool useMock)
+        public PathFinderFixture(TestType testtype = TestType.Positive, bool useMock = true)
         {
             var mockCommandParser = new Mock<IPacmanCommandParser>();
             var setup = mockCommandParser.Setup(x => x.ParsePlaceCommand(It.IsAny<string>()));
 
-            switch(testtype)
+            switch (testtype)
             {
                 case TestType.Negative:
                     setup.Returns(() => null);
@@ -24,7 +24,7 @@ namespace IECodeChallenge.Test.Fixtures
                     break;
             }
 
-            if(useMock)
+            if (useMock)
             {
                 Service = new PathFinder(mockCommandParser.Object);
             }
