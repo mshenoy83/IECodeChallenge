@@ -103,10 +103,10 @@ namespace IECodeChallenge.Services
         public PacmanModel ParsePlaceCommand(string input)
         {
             string[] strList = input.ToUpperInvariant().Replace("PLACE", "").Trim().Split(",");
-            var model = new PacmanModel();
-            if (Enum.TryParse(strList[2].ToUpperInvariant(), out Direction direction))
+            
+            if (!Enum.TryParse(strList[2].ToUpperInvariant(), out Direction direction))
             {
-                model.DirectionFacing = direction;
+                return null;
             }
 
             if (!int.TryParse(strList[0], out int xPos))
@@ -119,9 +119,12 @@ namespace IECodeChallenge.Services
                 return null;
             }
 
-            model.Position = new Point(xPos, yPos);
+            return new PacmanModel
+            {
+                DirectionFacing = direction,
+                Position = new Point(xPos, yPos)
+            };
 
-            return model;
         }
 
 
