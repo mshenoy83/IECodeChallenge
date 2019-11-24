@@ -1,8 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace IECodeChallenge.Models
 {
-    public class PacmanModel
+    public class PacmanModel : ICloneable
     {
         public Point Position { get; set; }
         public Direction DirectionFacing { get; set; }
@@ -19,19 +20,19 @@ namespace IECodeChallenge.Models
 
                 switch (DirectionFacing)
                 {
-                    case Direction.East:
+                    case Direction.EAST:
                         if (Position.X < 5)
                             return true;
                         break;
-                    case Direction.North:
+                    case Direction.NORTH:
                         if (Position.Y < 5)
                             return true;
                         break;
-                    case Direction.South:
+                    case Direction.SOUTH:
                         if (Position.Y > 0)
                             return true;
                         break;
-                    case Direction.West:
+                    case Direction.WEST:
                         if (Position.X > 0)
                             return true;
                         break;
@@ -39,6 +40,11 @@ namespace IECodeChallenge.Models
 
                 return false;
             }
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -89,30 +90,32 @@ namespace IECodeChallenge.Services
         /// <returns></returns>
         public KeyValuePair<CommandType, string> FetchCommand(string input)
         {
-            string command = _validCommands.Keys.FirstOrDefault(x => x.Contains(input, StringComparison.InvariantCultureIgnoreCase));
+            string command = _validCommands.Keys.FirstOrDefault(x => input.Contains(x, StringComparison.InvariantCultureIgnoreCase));
             return string.IsNullOrWhiteSpace(command) ? new KeyValuePair<CommandType, string>()
-                : new KeyValuePair<CommandType, string>(_validCommands[command], command);
+                : new KeyValuePair<CommandType, string>(_validCommands[command], input);
         }
 
-        public PlacementModel ParsePlaceCommand(string input)
+        public PacmanModel ParsePlaceCommand(string input)
         {
             input = input.ToUpperInvariant().Replace("PLACE", "").Trim();
             string[] strList = input.Split(",");
-            var model = new PlacementModel();
-            if (Enum.TryParse(strList[2], out Direction direction))
+            var model = new PacmanModel();
+            if (Enum.TryParse(strList[2].ToUpperInvariant(), out Direction direction))
             {
                 model.DirectionFacing = direction;
             }
 
             if (int.TryParse(strList[0], out int xPos))
             {
-                model.XPosition = xPos;
+                
             }
 
             if (int.TryParse(strList[1], out int yPos))
             {
-                model.YPosition = yPos;
+                
             }
+
+            model.Position = new Point(xPos,yPos);
 
             return model;
         }

@@ -10,7 +10,7 @@ namespace IECodeChallenge.Services
         void ParseCommand(string input);
         void ParseFile(string input);
 
-        PlacementModel ParsePlaceCommand(string input);
+        PacmanModel ParsePlaceCommand(string input);
         bool IsReportCommand { get; }
     }
 }

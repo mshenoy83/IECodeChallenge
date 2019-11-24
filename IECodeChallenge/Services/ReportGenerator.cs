@@ -12,6 +12,10 @@ namespace IECodeChallenge.Services
             {
                 Console.WriteLine("Output: {0},{1},{2}", model.Position.X, model.Position.Y, Enum.GetName(typeof(Direction), model.DirectionFacing));
             }
+            else
+            {
+                Console.WriteLine("Output: Pacman has not been placed on the grid");
+            }
         }
     }
 }

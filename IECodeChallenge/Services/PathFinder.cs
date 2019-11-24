@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 using IECodeChallenge.Models;
 
@@ -16,16 +18,17 @@ namespace IECodeChallenge.Services
 
         public PacmanModel UpdatePacmanPath(List<KeyValuePair<CommandType, string>> commands)
         {
+            if (!commands.Any())
+                return null;
+
             var model = new PacmanModel();
 
-            foreach (var cmd in commands)
+            foreach (KeyValuePair<CommandType, string> cmd in commands)
             {
                 switch (cmd.Key)
                 {
                     case CommandType.PLACE:
-                        var placemodel = _commandParser.ParsePlaceCommand(cmd.Value);
-                        model.DirectionFacing = placemodel.DirectionFacing;
-                        model.Position = new Point(placemodel.XPosition, placemodel.YPosition);
+                        model = _commandParser.ParsePlaceCommand(cmd.Value).Clone() as PacmanModel ?? new PacmanModel();
                         break;
                     case CommandType.LEFT:
                         model.DirectionFacing = GetNewPacmanDirection(TurnTaken.LEFT, model.DirectionFacing);
@@ -35,8 +38,6 @@ namespace IECodeChallenge.Services
                         break;
                     case CommandType.MOVE:
                         model.Position = GetNewPacmanPosition(model);
-                        break;
-                    default:
                         break;
                 }
             }
@@ -53,16 +54,16 @@ namespace IECodeChallenge.Services
             int y = model.Position.Y;
             switch (model.DirectionFacing)
             {
-                case Direction.West:
+                case Direction.WEST:
                     x--;
                     break;
-                case Direction.East:
+                case Direction.EAST:
                     x++;
                     break;
-                case Direction.North:
+                case Direction.NORTH:
                     y++;
                     break;
-                case Direction.South:
+                case Direction.SOUTH:
                     y--;
                     break;
             }
@@ -77,11 +78,11 @@ namespace IECodeChallenge.Services
 
             facing += rotation;
 
-            if (facing > 4)
+            if (facing > 3)
                 facing = 0;
 
             if (facing < 0)
-                facing = 4;
+                facing = 3;
 
             return (Direction)facing;
 
