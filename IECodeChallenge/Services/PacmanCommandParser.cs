@@ -64,7 +64,10 @@ namespace IECodeChallenge.Services
 
             using (var reader = new StreamReader(File.OpenRead(input)))
             {
-                ParseCommand(reader.ReadLine());
+                while (!reader.EndOfStream)
+                {
+                    ParseCommand(reader.ReadLine());    
+                }
             }
         }
 

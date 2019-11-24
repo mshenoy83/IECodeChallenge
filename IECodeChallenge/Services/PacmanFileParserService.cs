@@ -30,11 +30,11 @@ namespace IECodeChallenge.Services
                     _pacmanCommandParser.ParseFile(filename);
                     break;
                 }
-                catch (ArgumentNullException argex)
+                catch (ArgumentNullException)
                 {
                     Console.WriteLine("Invalid argument. Please enter a valid filename.");
                 }
-                catch (FileNotFoundException fnfex)
+                catch (FileNotFoundException)
                 {
                     Console.WriteLine("File not found. Please enter a valid filename.");
                 }
