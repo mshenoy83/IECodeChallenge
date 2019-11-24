@@ -19,6 +19,7 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
+            Console.WriteLine("You can start typing the commands now :");
             while (true)
             {
                 _pacmanCommandParser.ParseCommand(Console.ReadLine());
