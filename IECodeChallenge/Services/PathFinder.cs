@@ -39,7 +39,7 @@ namespace IECodeChallenge.Services
                         model.DirectionFacing = GetNewPacmanDirection(TurnTaken.RIGHT, model.DirectionFacing, model.IsInGrid);
                         break;
                     case CommandType.MOVE:
-                        model.Position = GetNewPacmanPosition(model);
+                        model.Position = MovePacman(model);
                         break;
                 }
             }
@@ -47,7 +47,7 @@ namespace IECodeChallenge.Services
             return model;
         }
 
-        public Point GetNewPacmanPosition(PacmanModel model)
+        public Point MovePacman(PacmanModel model)
         {
             if (!model.CanMove)
                 return model.Position;

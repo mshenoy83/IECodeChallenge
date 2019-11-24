@@ -3,6 +3,7 @@ using IECodeChallenge.Models;
 using IECodeChallenge.Test.Fixtures;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using Xunit;
 
@@ -88,6 +89,136 @@ namespace IECodeChallenge.Test.Tests
                 yield return new object[] { TurnTaken.RIGHT, Direction.EAST, false, Direction.EAST };
                 yield return new object[] { TurnTaken.RIGHT, Direction.WEST, false, Direction.WEST };
                 yield return new object[] { TurnTaken.RIGHT, Direction.SOUTH, false, Direction.SOUTH };
+            }
+            #endregion
+        }
+
+        public class PacmanPositionTests
+        {
+            private readonly PathFinderFixture ServiceFixture = new PathFinderFixture();
+
+            [Theory]
+            [MemberData(nameof(TestDirectionData))]
+            public void Position_Should_Match_Expected_Result(PacmanModel model, Point expectedPosition)
+            {
+                var actualPosition = ServiceFixture.Service.MovePacman(model);
+                actualPosition.Should().Be(expectedPosition);
+            }
+
+            #region TestData
+            public static IEnumerable<object[]> TestDirectionData()
+            {
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(0,0),
+                        DirectionFacing = Direction.WEST
+                    },
+                    new Point(0,0)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(0,0),
+                        DirectionFacing = Direction.SOUTH
+                    },
+                    new Point(0,0)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(5,5),
+                        DirectionFacing = Direction.EAST
+                    },
+                    new Point(5,5)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(5,5),
+                        DirectionFacing = Direction.NORTH
+                    },
+                    new Point(5,5)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(5,0),
+                        DirectionFacing = Direction.EAST
+                    },
+                    new Point(5,0)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(5,0),
+                        DirectionFacing = Direction.SOUTH
+                    },
+                    new Point(5,0)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(0,5),
+                        DirectionFacing = Direction.WEST
+                    },
+                    new Point(0,5)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(0,5),
+                        DirectionFacing = Direction.NORTH
+                    },
+                    new Point(0,5)
+                };
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(0,5),
+                        DirectionFacing = Direction.EAST
+                    },
+                    new Point(1,5)
+                };
+
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(0,5),
+                        DirectionFacing = Direction.SOUTH
+                    },
+                    new Point(0,4)
+                };
+
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(2,3),
+                        DirectionFacing = Direction.NORTH
+                    },
+                    new Point(2,4)
+                };
+
+                yield return new object[]
+                {
+                    new PacmanModel
+                    {
+                        Position = new Point(3,2),
+                        DirectionFacing = Direction.WEST
+                    },
+                    new Point(2,2)
+                };
             }
             #endregion
         }

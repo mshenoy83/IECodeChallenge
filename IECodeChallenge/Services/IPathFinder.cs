@@ -8,7 +8,7 @@ namespace IECodeChallenge.Services
     {
         PacmanModel UpdatePacmanPath(List<KeyValuePair<CommandType,string>> commands);
 
-        Point GetNewPacmanPosition(PacmanModel model);
+        Point MovePacman(PacmanModel model);
 
         Direction GetNewPacmanDirection(TurnTaken turn, Direction currentDirection, bool isInGrid);
     }
