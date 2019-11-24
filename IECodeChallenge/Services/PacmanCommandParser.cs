@@ -106,14 +106,14 @@ namespace IECodeChallenge.Services
                 model.DirectionFacing = direction;
             }
 
-            if (int.TryParse(strList[0], out int xPos))
+            if (!int.TryParse(strList[0], out int xPos))
             {
-
+                return null;
             }
 
-            if (int.TryParse(strList[1], out int yPos))
+            if (!int.TryParse(strList[1], out int yPos))
             {
-
+                return null;
             }
 
             model.Position = new Point(xPos, yPos);

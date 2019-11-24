@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -28,7 +27,10 @@ namespace IECodeChallenge.Services
                 switch (cmd.Key)
                 {
                     case CommandType.PLACE:
-                        model = _commandParser.ParsePlaceCommand(cmd.Value).Clone() as PacmanModel ?? new PacmanModel();
+                        var parsedCommand = _commandParser.ParsePlaceCommand(cmd.Value);
+                        if (parsedCommand == null)
+                            return null;
+                        model = parsedCommand.Clone() as PacmanModel;
                         break;
                     case CommandType.LEFT:
                         model.DirectionFacing = model.IsInGrid ? GetNewPacmanDirection(TurnTaken.LEFT, model.DirectionFacing) : model.DirectionFacing;
