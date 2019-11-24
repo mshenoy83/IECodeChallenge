@@ -11,6 +11,6 @@ namespace IECodeChallenge.Services
         void ParseFile(string input);
 
         PacmanModel ParsePlaceCommand(string input);
-        bool IsReportCommand { get; }
+        bool IsReportRequested { get; }
     }
 }

@@ -33,7 +33,7 @@ namespace IECodeChallenge.Services
             switch (command.Key)
             {
                 case CommandType.PLACE:
-                    isreportCommand = false;
+                    _isreportCommand = false;
                     _commandQueueInitiated = true;
                     _commandQueue.Clear();
                     _commandQueue.Enqueue(command);
@@ -48,7 +48,7 @@ namespace IECodeChallenge.Services
 
             if (command.Key == CommandType.REPORT)
             {
-                isreportCommand = true;
+                _isreportCommand = true;
             }
 
             return parsedInput;
@@ -71,9 +71,9 @@ namespace IECodeChallenge.Services
             }
         }
 
-        private bool isreportCommand;
+        private bool _isreportCommand;
 
-        public bool IsReportCommand => isreportCommand;
+        public bool IsReportRequested => _isreportCommand;
 
         public List<KeyValuePair<CommandType, string>> GetCommandList()
         {

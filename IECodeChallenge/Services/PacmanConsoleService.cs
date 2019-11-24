@@ -28,7 +28,7 @@ namespace IECodeChallenge.Services
             while (true)
             {
                 _pacmanCommandParser.ParseCommand(_consoleService.ReadLine());
-                if (_pacmanCommandParser.IsReportCommand)
+                if (_pacmanCommandParser.IsReportRequested)
                 {
                     break;
                 }

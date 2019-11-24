@@ -13,5 +13,10 @@ namespace IECodeChallenge.Services
         {
             Console.WriteLine(messageTemplate, args);
         }
+
+        public ConsoleKeyInfo ReadKey()
+        {
+            return Console.ReadKey();
+        }
     }
 }

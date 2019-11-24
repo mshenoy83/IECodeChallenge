@@ -11,8 +11,8 @@ namespace IECodeChallenge.Services
         private readonly IReportGenerator _reportGenerator;
         private readonly IConsoleService _consoleService;
 
-        public PacmanFileParserService(IPacmanCommandParser pacmanCommandParser, 
-                                       IPathFinder pathfinder, 
+        public PacmanFileParserService(IPacmanCommandParser pacmanCommandParser,
+                                       IPathFinder pathfinder,
                                        IReportGenerator reportGenerator,
                                        IConsoleService consoleService)
         {
@@ -47,12 +47,15 @@ namespace IECodeChallenge.Services
                 {
                     Console.WriteLine(exception);
                     return;
-                }    
+                }
             }
 
             var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList());
-            _reportGenerator.GeneratePacmanReport(pacmanModel);
-            
+            if (_pacmanCommandParser.IsReportRequested)
+            {
+                _reportGenerator.GeneratePacmanReport(pacmanModel);
+            }
+
         }
     }
 }

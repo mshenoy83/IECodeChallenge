@@ -1,23 +1,24 @@
-﻿using System;
-using IECodeChallenge.Services;
+﻿using IECodeChallenge.Services;
 
 namespace IECodeChallenge
 {
     public class App
     {
         private readonly SimulationLoader _simLoader;
+        private readonly IConsoleService _consoleService;
 
-        public App(SimulationLoader simLoader)
+        public App(SimulationLoader simLoader, IConsoleService consoleService)
         {
             _simLoader = simLoader;
+            _consoleService = consoleService;
         }
 
         public void Start()
         {
-            Console.WriteLine("Welcome to Pacman Simulator.");
-            Console.WriteLine("Typing 'exit' at anytime will exit the simulation.");
+            _consoleService.WriteLine("Welcome to Pacman Simulator.");
+            _consoleService.WriteLine("Typing 'exit' at anytime will exit the simulation.");
             _simLoader.InitializeSimulation();
-            Console.ReadKey();
+            _consoleService.ReadKey();
         }
     }
 }
