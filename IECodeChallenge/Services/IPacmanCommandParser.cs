@@ -4,10 +4,10 @@ using IECodeChallenge.Models;
 
 namespace IECodeChallenge.Services
 {
-    public interface IPacmanCommandParser
+    public interface IPacmanCommandParser : ICommandParser
     {
-        List<KeyValuePair<CommandType,string>> GetCommandList(); 
-        void ParseCommand(string input);
+        List<KeyValuePair<CommandType, string>> GetCommandList();
+
         void ParseFile(string input);
 
         PacmanModel ParsePlaceCommand(string input);

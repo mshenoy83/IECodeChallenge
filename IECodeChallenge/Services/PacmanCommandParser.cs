@@ -8,7 +8,7 @@ using IECodeChallenge.Models;
 
 namespace IECodeChallenge.Services
 {
-    public class PacmanCommandParser : IPacmanCommandParser
+    public class PacmanCommandParser : CommandParser, IPacmanCommandParser
     {
         private readonly Dictionary<string, CommandType> _validCommands = new Dictionary<string, CommandType>
         {
@@ -21,14 +21,13 @@ namespace IECodeChallenge.Services
         private readonly Queue<KeyValuePair<CommandType, string>> _commandQueue = new Queue<KeyValuePair<CommandType, string>>();
         private bool _commandQueueInitiated;
 
-        public void ParseCommand(string input)
+        public override string ParseCommand(string input)
         {
-
-
+            var parsedInput = base.ParseCommand(input);
             //TODO use regex
-            var command = FetchCommand(input);
+            var command = FetchCommand(parsedInput);
             if (string.IsNullOrEmpty(command.Value))
-                return;
+                return input;
 
             //If its a place command, initiate/re-initiate the queue
             switch (command.Key)
@@ -46,11 +45,13 @@ namespace IECodeChallenge.Services
                     }
                     break;
             }
-            
+
             if (command.Key == CommandType.REPORT)
             {
                 isreportCommand = true;
             }
+
+            return parsedInput;
         }
 
         public void ParseFile(string input)
@@ -107,15 +108,15 @@ namespace IECodeChallenge.Services
 
             if (int.TryParse(strList[0], out int xPos))
             {
-                
+
             }
 
             if (int.TryParse(strList[1], out int yPos))
             {
-                
+
             }
 
-            model.Position = new Point(xPos,yPos);
+            model.Position = new Point(xPos, yPos);
 
             return model;
         }

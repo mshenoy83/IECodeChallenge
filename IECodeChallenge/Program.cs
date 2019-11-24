@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
-using IECodeChallenge.Services;
-
+﻿using IECodeChallenge.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IECodeChallenge
@@ -14,18 +7,6 @@ namespace IECodeChallenge
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World!");
-            //while (true)
-            //{
-            //    var input = Console.ReadLine();
-            //    if (!string.IsNullOrEmpty(input) && input.Equals("exit", StringComparison.InvariantCultureIgnoreCase))
-            //    {
-            //        break;
-            //    }
-            //    Console.WriteLine("Accepted");
-            //}
-
-            //Console.Write("Ok bye");
             // Create service collection
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
@@ -39,6 +20,7 @@ namespace IECodeChallenge
 
         private static void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<ICommandParser, CommandParser>();
             serviceCollection.AddTransient<IPacmanCommandParser, PacmanCommandParser>();
             serviceCollection.AddTransient<IPacmanService, PacmanConsoleService>();
             serviceCollection.AddTransient<IPacmanService, PacmanFileParserService>();

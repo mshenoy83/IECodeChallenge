@@ -7,10 +7,12 @@ namespace IECodeChallenge.Services
     {
         private readonly IPacmanTypeStrategy _pacmanStrategy;
         private PacmanType simulationType;
+        private readonly ICommandParser _commandParser;
 
-        public SimulationLoader(IPacmanTypeStrategy pacmanStrategy)
+        public SimulationLoader(IPacmanTypeStrategy pacmanStrategy, ICommandParser commandParser)
         {
             _pacmanStrategy = pacmanStrategy;
+            _commandParser = commandParser;
         }
 
         public void InitializeSimulation()
@@ -20,17 +22,7 @@ namespace IECodeChallenge.Services
                 Console.WriteLine("Type 1 to enter input via the console.");
                 Console.WriteLine("Type 2 to enter input via a file.");
 
-                string input = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    Console.WriteLine("Invalid input....");
-                    continue;
-                }
-
-                if(input.Equals("exit",StringComparison.InvariantCultureIgnoreCase))
-                    return;
-
-                if (IsValidInput(input))
+                if (IsValidInput(_commandParser.ParseCommand(Console.ReadLine())))
                 {
                     break;
                 }
