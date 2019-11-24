@@ -20,6 +20,7 @@ namespace IECodeChallenge
 
         private static void ConfigureServices(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IConsoleService, ConsoleService>();
             serviceCollection.AddTransient<ICommandParser, CommandParser>();
             serviceCollection.AddTransient<IPacmanCommandParser, PacmanCommandParser>();
             serviceCollection.AddTransient<IPacmanService, PacmanConsoleService>();

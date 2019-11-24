@@ -8,9 +8,13 @@ namespace IECodeChallenge.Services
         private readonly IPacmanTypeStrategy _pacmanStrategy;
         private PacmanType simulationType;
         private readonly ICommandParser _commandParser;
+        private readonly IConsoleService _consoleService;
 
-        public SimulationLoader(IPacmanTypeStrategy pacmanStrategy, ICommandParser commandParser)
+        public SimulationLoader(IPacmanTypeStrategy pacmanStrategy, 
+                                ICommandParser commandParser,
+                                IConsoleService consoleService)
         {
+            _consoleService = consoleService;
             _pacmanStrategy = pacmanStrategy;
             _commandParser = commandParser;
         }
@@ -22,7 +26,7 @@ namespace IECodeChallenge.Services
                 Console.WriteLine("Type 1 to enter input via the console.");
                 Console.WriteLine("Type 2 to enter input via a file.");
 
-                if (IsValidInput(_commandParser.ParseCommand(Console.ReadLine())))
+                if (IsValidInput(_commandParser.ParseCommand(_consoleService.ReadLine())))
                 {
                     break;
                 }

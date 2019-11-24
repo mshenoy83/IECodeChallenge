@@ -9,9 +9,14 @@ namespace IECodeChallenge.Services
         private readonly IPacmanCommandParser _pacmanCommandParser;
         private readonly IPathFinder _pathfinder;
         private readonly IReportGenerator _reportGenerator;
+        private readonly IConsoleService _consoleService;
 
-        public PacmanFileParserService(IPacmanCommandParser pacmanCommandParser, IPathFinder pathfinder, IReportGenerator reportGenerator)
+        public PacmanFileParserService(IPacmanCommandParser pacmanCommandParser, 
+                                       IPathFinder pathfinder, 
+                                       IReportGenerator reportGenerator,
+                                       IConsoleService consoleService)
         {
+            _consoleService = consoleService;
             _pacmanCommandParser = pacmanCommandParser;
             _pathfinder = pathfinder;
             _reportGenerator = reportGenerator;
@@ -26,7 +31,7 @@ namespace IECodeChallenge.Services
             {
                 try
                 {
-                    string filename = Console.ReadLine();
+                    string filename = _consoleService.ReadLine();
                     _pacmanCommandParser.ParseFile(filename);
                     break;
                 }
