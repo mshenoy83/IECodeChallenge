@@ -1,5 +1,4 @@
 ﻿using System;
-
 using IECodeChallenge.Models;
 
 namespace IECodeChallenge.Services
@@ -24,17 +23,21 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
-            _consoleService.WriteLine("You can start typing the commands now :");
-            while (true)
+            try
             {
-                _pacmanCommandParser.ParseCommand(_consoleService.ReadLine());
-                if (!_pacmanCommandParser.IsReportRequested) continue;
+                _consoleService.WriteLine("You can start typing the commands now :");
+                while (true)
+                {
+                    _pacmanCommandParser.ParseCommand(_consoleService.ReadLine());
+                    if (_pacmanCommandParser.IsReportRequested) break;
+                }
                 var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList())?.Clone() as PacmanModel;
                 _consoleService.WriteLine(_reportGenerator.GeneratePacmanReport(pacmanModel));
-                _pacmanCommandParser.ParseCommand(_reportGenerator.GeneratePacmanPlaceCommand(pacmanModel));
             }
-
-
+            catch (Exception exception)
+            {
+                _consoleService.WriteLine(exception.ToString());
+            }
         }
 
         public PacmanType ServiceType => PacmanType.Console;

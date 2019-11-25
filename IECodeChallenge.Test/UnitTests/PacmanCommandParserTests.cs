@@ -159,6 +159,7 @@ namespace IECodeChallenge.Test.UnitTests
             
             yield return new object[] { "PLACE A,2,NORTH", null };
             yield return new object[] { "PLACE 1,2,NORTHENER", null };
+            yield return new object[] { "PLACE", null };
 
         }
         #endregion

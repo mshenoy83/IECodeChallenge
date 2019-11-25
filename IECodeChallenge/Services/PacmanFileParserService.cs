@@ -26,35 +26,43 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
-            _consoleService.WriteLine("Enter Filename :");
-            while (true)
+            try
             {
-                try
+                _consoleService.WriteLine("Enter Filename :");
+                while (true)
                 {
-                    string filename = _consoleService.ReadLine();
-                    _pacmanCommandParser.ParseFile(filename);
-                    break;
+                    try
+                    {
+                        string filename = _consoleService.ReadLine();
+                        _pacmanCommandParser.ParseFile(filename);
+                        break;
+                    }
+                    catch (ArgumentNullException)
+                    {
+                        _consoleService.WriteLine("Invalid argument. Please enter a valid filename.");
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        _consoleService.WriteLine("File not found. Please enter a valid filename.");
+                    }
+                    catch (Exception exception)
+                    {
+                        _consoleService.WriteLine(exception.ToString());
+                        return;
+                    }
                 }
-                catch (ArgumentNullException)
-                {
-                    _consoleService.WriteLine("Invalid argument. Please enter a valid filename.");
-                }
-                catch (FileNotFoundException)
-                {
-                    _consoleService.WriteLine("File not found. Please enter a valid filename.");
-                }
-                catch (Exception exception)
-                {
-                    _consoleService.WriteLine(exception.ToString());
-                    return;
-                }
-            }
 
-            var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList());
-            if (_pacmanCommandParser.IsReportRequested)
-            {
-                _reportGenerator.GeneratePacmanReport(pacmanModel);
+                var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList());
+                if (_pacmanCommandParser.IsReportRequested)
+                {
+                    _reportGenerator.GeneratePacmanReport(pacmanModel);
+                }
             }
+            catch (Exception exception)
+            {
+                _consoleService.WriteLine(exception.ToString());
+            }
+           
 
         }
     }
