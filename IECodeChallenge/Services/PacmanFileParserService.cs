@@ -26,7 +26,7 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
-            Console.WriteLine("Enter Filename :");
+            _consoleService.WriteLine("Enter Filename :");
             while (true)
             {
                 try
@@ -37,15 +37,15 @@ namespace IECodeChallenge.Services
                 }
                 catch (ArgumentNullException)
                 {
-                    Console.WriteLine("Invalid argument. Please enter a valid filename.");
+                    _consoleService.WriteLine("Invalid argument. Please enter a valid filename.");
                 }
                 catch (FileNotFoundException)
                 {
-                    Console.WriteLine("File not found. Please enter a valid filename.");
+                    _consoleService.WriteLine("File not found. Please enter a valid filename.");
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    _consoleService.WriteLine(exception.ToString());
                     return;
                 }
             }

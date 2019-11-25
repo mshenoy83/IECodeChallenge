@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace IECodeChallenge.Test.UnitTests
     {
         [Theory]
         [MemberData(nameof(ParseCommandValidationsData))]
-        public void ParseCommandValidations(List<string> commands,int commandCount,int moveCount,int leftCount,int rightCount)
+        public void ParseCommandValidations(List<string> commands, int commandCount, int moveCount, int leftCount, int rightCount)
         {
             var commandparser = new PacmanCommandParser();
             foreach (var cmd in commands)
@@ -95,7 +96,7 @@ namespace IECodeChallenge.Test.UnitTests
 
         [Theory]
         [MemberData(nameof(ParseFileValidationsData))]
-        public void ValidateParseFile(string filename,int commandCount,int moveCount,int leftCount,int rightCount)
+        public void ValidateParseFile(string filename, int commandCount, int moveCount, int leftCount, int rightCount)
         {
             var commandparser = new PacmanCommandParser();
             commandparser.ParseFile(filename);
@@ -122,6 +123,44 @@ namespace IECodeChallenge.Test.UnitTests
             };
         }
         #endregion
-        
+
+        [Theory]
+        [MemberData(nameof(ParsePlaceCommandData))]
+        public void ValidateParsePlaceCommand(string command, PacmanModel expectedresult)
+        {
+            var commandparser = new PacmanCommandParser();
+            var model = commandparser.ParsePlaceCommand(command);
+            if (expectedresult == null)
+            {
+                model.Should().BeNull();
+            }
+            else
+            {
+                model.Should().NotBeNull();
+                model.DirectionFacing.Should().Be(expectedresult.DirectionFacing);
+                model.Position.Should().Be(expectedresult.Position);
+            }
+
+        }
+
+        #region ParsePlaceCommand TestData
+        public static IEnumerable<object[]> ParsePlaceCommandData()
+        {
+            yield return new object[] { "PLACE 1,2,NORTH", new PacmanModel
+            {
+                DirectionFacing = Direction.NORTH,
+                Position = new Point(1,2)
+            } };
+            yield return new object[] { "PLACE 11,-2,NORTH", new PacmanModel
+            {
+                DirectionFacing = Direction.NORTH,
+                Position = new Point(11,-2)
+            } };
+            
+            yield return new object[] { "PLACE A,2,NORTH", null };
+            yield return new object[] { "PLACE 1,2,NORTHENER", null };
+
+        }
+        #endregion
     }
 }
