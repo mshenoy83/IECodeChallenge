@@ -11,8 +11,8 @@ namespace IECodeChallenge.Services
         private readonly IReportGenerator _reportGenerator;
         private readonly IConsoleService _consoleService;
 
-        public PacmanConsoleService(IPacmanCommandParser pacmanCommandParser, 
-                                    IPathFinder pathfinder, 
+        public PacmanConsoleService(IPacmanCommandParser pacmanCommandParser,
+                                    IPathFinder pathfinder,
                                     IReportGenerator reportGenerator,
                                     IConsoleService consoleService)
         {
@@ -24,18 +24,17 @@ namespace IECodeChallenge.Services
 
         public void Simulate()
         {
-            Console.WriteLine("You can start typing the commands now :");
+            _consoleService.WriteLine("You can start typing the commands now :");
             while (true)
             {
                 _pacmanCommandParser.ParseCommand(_consoleService.ReadLine());
-                if (_pacmanCommandParser.IsReportRequested)
-                {
-                    break;
-                }
+                if (!_pacmanCommandParser.IsReportRequested) continue;
+                var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList())?.Clone() as PacmanModel;
+                _consoleService.WriteLine(_reportGenerator.GeneratePacmanReport(pacmanModel));
+                _pacmanCommandParser.ParseCommand(_reportGenerator.GeneratePacmanPlaceCommand(pacmanModel));
             }
 
-            var pacmanModel = _pathfinder.UpdatePacmanPath(_pacmanCommandParser.GetCommandList());
-            _reportGenerator.GeneratePacmanReport(pacmanModel);
+
         }
 
         public PacmanType ServiceType => PacmanType.Console;

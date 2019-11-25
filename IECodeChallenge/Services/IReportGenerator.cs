@@ -4,6 +4,7 @@ namespace IECodeChallenge.Services
 {
     public interface IReportGenerator
     {
-        void GeneratePacmanReport(PacmanModel model);
+        string GeneratePacmanReport(PacmanModel model);
+        string GeneratePacmanPlaceCommand(PacmanModel model);
     }
 }
