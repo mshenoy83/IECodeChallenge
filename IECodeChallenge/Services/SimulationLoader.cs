@@ -23,15 +23,15 @@ namespace IECodeChallenge.Services
         {
             while (true)
             {
-                Console.WriteLine("Type 1 to enter input via the console.");
-                Console.WriteLine("Type 2 to enter input via a file.");
+                _consoleService.WriteLine("Type 1 to enter input via the console.");
+                _consoleService.WriteLine("Type 2 to enter input via a file.");
 
                 if (IsValidInput(_commandParser.ParseCommand(_consoleService.ReadLine())))
                 {
                     break;
                 }
 
-                Console.WriteLine("Invalid input....");
+                _consoleService.WriteLine("Invalid input....");
             }
 
             IPacmanService pacmanService = _pacmanStrategy.GetPacmanService(simulationType);
