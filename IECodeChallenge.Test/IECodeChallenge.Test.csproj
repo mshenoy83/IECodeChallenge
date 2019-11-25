@@ -7,6 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ParseFiles\Inputfile1.txt" />
+    <None Remove="ParseFiles\Inputfile2.txt" />
+    <None Remove="ParseFiles\Inputfile3.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ParseFiles\Inputfile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParseFiles\Inputfile2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParseFiles\Inputfile3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Moq" Version="4.13.1" />

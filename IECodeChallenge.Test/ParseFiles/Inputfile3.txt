@@ -1,0 +1,6 @@
+﻿PLACE 1,2EASTEY
+                    MOVE
+                    MOVE
+                    LEFT
+                    MOVE
+                    REPORT

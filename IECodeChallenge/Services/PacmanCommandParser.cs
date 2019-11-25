@@ -13,7 +13,7 @@ namespace IECodeChallenge.Services
     {
         private readonly Dictionary<string, CommandType> _validCommands = new Dictionary<string, CommandType>
         {
-            {@"^(PLACE)\s-?\d+,{1}-?\d+,{1}(NORTH|SOUTH|WEST|EAST)",CommandType.PLACE},
+            {@"^(PLACE)\s-?\d+,{1}-?\d+,{1}(NORTH|SOUTH|WEST|EAST)$",CommandType.PLACE},
             {@"^MOVE",CommandType.MOVE},
             {@"^LEFT",CommandType.LEFT},
             {@"^RIGHT",CommandType.RIGHT},
@@ -91,9 +91,9 @@ namespace IECodeChallenge.Services
         {
             foreach (KeyValuePair<string, CommandType> cmd in _validCommands)
             {
-                if (Regex.Match(input.ToUpperInvariant(), cmd.Key).Success)
+                if (Regex.Match(input.Trim().ToUpperInvariant(), cmd.Key).Success)
                 {
-                    return new KeyValuePair<CommandType, string>(cmd.Value, input);
+                    return new KeyValuePair<CommandType, string>(cmd.Value, input.Trim().ToUpperInvariant());
                 }
             }
 
@@ -102,28 +102,37 @@ namespace IECodeChallenge.Services
 
         public PacmanModel ParsePlaceCommand(string input)
         {
-            string[] strList = input.ToUpperInvariant().Replace("PLACE", "").Trim().Split(",");
+            try
+            {
+                string[] strList = input.ToUpperInvariant().Replace("PLACE", "").Trim().Split(",");
             
-            if (!Enum.TryParse(strList[2].ToUpperInvariant(), out Direction direction))
+                if (!Enum.TryParse(strList[2].ToUpperInvariant(), out Direction direction))
+                {
+                    return null;
+                }
+
+                if (!int.TryParse(strList[0], out int xPos))
+                {
+                    return null;
+                }
+
+                if (!int.TryParse(strList[1], out int yPos))
+                {
+                    return null;
+                }
+
+                return new PacmanModel
+                {
+                    DirectionFacing = direction,
+                    Position = new Point(xPos, yPos)
+                };
+            }
+            catch (Exception exception)
             {
+                Console.WriteLine(exception);
                 return null;
             }
-
-            if (!int.TryParse(strList[0], out int xPos))
-            {
-                return null;
-            }
-
-            if (!int.TryParse(strList[1], out int yPos))
-            {
-                return null;
-            }
-
-            return new PacmanModel
-            {
-                DirectionFacing = direction,
-                Position = new Point(xPos, yPos)
-            };
+            
 
         }
 
